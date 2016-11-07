@@ -235,8 +235,20 @@ func (a *HTTPAdapter) flushHttp(reason string) {
 	messages := make([]string, 0, len(buffer))
 	for i := range buffer {
 		m := buffer[i]
+
+		message_string := m.Data
+		message_data := make(map[string]interface{})
+
+		err := json.Unmarshal([]byte(message_string), &message_data)
+		if err == nil {
+			// Setting message_string as empty since its content is a valid json
+			// stored into message_data
+			message_string = ""
+		}
+
 		httpMessage := HTTPMessage{
-			Message:  m.Data,
+			Data:     message_data,
+			Message:  message_string,
 			Time:     m.Time.Format(time.RFC3339),
 			Source:   m.Source,
 			Name:     m.Container.Name,
@@ -328,6 +340,7 @@ func createRequest(url string, useGzip bool, payload string) *http.Request {
 
 // HTTPMessage is a simple JSON representation of the log message.
 type HTTPMessage struct {
+	Data		 map[string]interface{} `json:"data"`
 	Message  string `json:"message"`
 	Time     string `json:"time"`
 	Source   string `json:"source"`
