@@ -1,1 +1,1 @@
-FROM raychaser/logspout:latest-stats
+FROM amaysim/logspout:latest
