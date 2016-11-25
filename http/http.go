@@ -18,7 +18,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/gliderlabs/logspout/router"
+	"github.com/amaysim-au/logspout/router"
 )
 
 func init() {
