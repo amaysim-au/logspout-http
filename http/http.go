@@ -235,33 +235,33 @@ func (a *HTTPAdapter) flushHttp(reason string) {
 	messages := make([]string, 0, len(buffer))
 	for i := range buffer {
 		m := buffer[i]
-
-		message_string := m.Data
-		message_data := make(map[string]interface{})
-
-		err := json.Unmarshal([]byte(message_string), &message_data)
-		if err == nil {
-			// Setting message_string as empty since its content is a valid json
-			// stored into message_data
-			message_string = ""
-		}
-
-		httpMessage := HTTPMessage{
-			Data:     message_data,
-			Message:  message_string,
-			Time:     m.Time.Format(time.RFC3339),
-			Source:   m.Source,
-			Name:     m.Container.Name,
-			ID:       m.Container.ID,
-			Image:    m.Container.Config.Image,
-			Hostname: m.Container.Config.Hostname,
-		}
-		message, err := json.Marshal(httpMessage)
-		if err != nil {
-			debug("flushHttp - Error encoding JSON: ", err)
-			continue
-		}
-		messages = append(messages, string(message))
+		//
+		// message_string := m.Data
+		// message_data := make(map[string]interface{})
+		//
+		// err := json.Unmarshal([]byte(message_string), &message_data)
+		// if err == nil {
+		// 	// Setting message_string as empty since its content is a valid json
+		// 	// stored into message_data
+		// 	message_string = ""
+		// }
+		//
+		// httpMessage := HTTPMessage{
+		// 	Data:     message_data,
+		// 	Message:  message_string,
+		// 	Time:     m.Time.Format(time.RFC3339),
+		// 	Source:   m.Source,
+		// 	Name:     m.Container.Name,
+		// 	ID:       m.Container.ID,
+		// 	Image:    m.Container.Config.Image,
+		// 	Hostname: m.Container.Config.Hostname,
+		// }
+		// message, err := json.Marshal(httpMessage)
+		// if err != nil {
+		// 	debug("flushHttp - Error encoding JSON: ", err)
+		// 	continue
+		// }
+		messages = append(messages, string(m.Data))
 	}
 
 	// Glue all the JSON representations together into one payload to send
